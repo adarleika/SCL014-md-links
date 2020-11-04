@@ -1,4 +1,28 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "scl014-md-links",
+  "version": "1.0.0",
+  "description": "Proyecto Libreria Node",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adarleika/SCL014-md-links.git"
+  },
+  "author": "Adarleika Silva",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adarleika/SCL014-md-links/issues"
+  },
+  "homepage": "https://github.com/adarleika/SCL014-md-links#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
 }
