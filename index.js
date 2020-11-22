@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 /*module.exports = () => {
   // ...
@@ -10,12 +10,12 @@
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-//const fetch = require("fetch");
+const fetch = require("fetch");
 //const fetch = require('node-fetch');
-//const fetchUrl = fech.fetchUrl;
+const fetchUrl = fetch.fetchUrl;
 
 
-
+let total = 0;
 let fileName = process.argv[2]
 fileName = path.resolve(fileName)
 console.log(fileName)
@@ -32,14 +32,17 @@ const singleLine = /\[([^\[]+)\]\((.*)\)/;
 const getHttpStatus = (url) => {
   return new Promise((resolve, reject) => {
     fetchUrl(url, (error, meta, body) => {
-      if(error) {
+      if (error) {
         reject(error)
-      }else {
+      } else {
         resolve(meta.status)
       }
     });
   })
 };
+
+
+
 
 //Leer archivo con promesa e imprime en un arreglo el href, text y path del archivo
 const readAFile = (fileName, encoding) => {
@@ -48,50 +51,52 @@ const readAFile = (fileName, encoding) => {
     fs.readFile(fileName, encoding, (err, data) => {
       let myarray = data.match(pattern);
       const infoLinks = [];
-      
+
       myarray.forEach((line) => {
         let linkLine = line.match(singleLine);
         let http = linkLine[2].includes('http');
 
-        if(http){
-          infoLinks.push({href:linkLine[2], text:linkLine[1], path:fileName})
+        if (http) {
+          infoLinks.push({ href: linkLine[2], text: linkLine[1], path: fileName })
         }
 
       });
 
-      let total = infoLinks.length;
-      console.log(total);
+      //let total = infoLinks.length;
+      //console.log("total de link son", + total);
 
-      infoLinks.map((line) => {
-        let url = line.href;
-        let text = line.text;
-        let file = line.path;
 
-        if(options === '--validate'){
-          getHttpStatus(url)
-            .then(res => {
-                console.log("EL estado de", url, "es", res)
-            })
-            .catch(err => {
-              console.log(err.path)
-            });
-          } else if (options === '--stats'){
-            
-            console.log("esto es el total",total)
-        } else {
-          console.log((`file: ${file} \n Link: ${url} \n Text: ${text}`));
-        };
-      });
+      // infoLinks.map((line) => {
+      // let url = line.href;
+      //let text = line.text;
+      //let file = line.path;
 
-      /*
+      //if(options === '--validate'){
+      //getHttpStatus(url)
+      //.then(res => {
+      //  console.log("EL estado de", url, "es", res)
+      //})
+      //.catch(err => {
+      //console.log(err.path)
+      // });
+      //} else if (options === '--stats'){
+
+      //console.log("esto es el total",total)
+      //} else {
+      //console.log((`file: ${file} \n Link: ${url} \n Text: ${text}`));
+      //};
+      //});
+
+
+
       if (err) {
         reject(err);
       } else {
         resolve(infoLinks);
 
       }
-      */
-    
+
+
     });
   });
 
@@ -100,7 +105,41 @@ const readAFile = (fileName, encoding) => {
 
 readAFile(fileName, 'utf-8')
   .then(resolve => {
-    console.log(resolve);
+    //console.log(resolve);
+    const infoLinks = resolve;
+
+    total = infoLinks.length;
+    //array = total.indexOf-1;
+
+    infoLinks.map((line) => {
+      //console.log("aqui imprimo el map", line.length[1])
+      let url = line.href;
+      let text = line.text;
+      let file = line.path;
+
+      total = infoLinks.length;
+
+
+      if (options === '--validate') {
+        getHttpStatus(url)
+          .then(res => {
+            console.log("EL estado de", url, "es", res)
+          })
+          .catch(err => {
+            console.log(err.path)
+          });
+      } else if (options === '--stats') {
+
+        console.log("total de link son", + total);
+
+      } else {
+        console.log((`file: ${file} \n Link: ${url} \n Text: ${text}`));
+      };
+
+
+    });
+
+
   })
   .catch(err => {
     console.log(err.path)
@@ -138,6 +177,27 @@ if (extFile === '.md') {
   console.log("no es una extension .md");
 }
 
+/*
+
+const mdlinks = (infoLinks, options) => {
+
+  return new Promise((resolve, reject) => {
+    //const info = extFile(fileName)
 
 
+  });
 
+
+}
+
+//module.exports = mdLinks;
+
+
+mdlinks(infoLinks )
+  .then(resolve => {
+    console.log(resolve);
+  })
+  .catch(err => {
+    console.log("aqui va el indefinido",err)
+  })
+*/
