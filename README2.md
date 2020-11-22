@@ -6,7 +6,11 @@ Esta libreria permite analizar archivos con extensión MD.Analiza el contenido y
 
 ## Instalacion
 
+npm i md-links-adarleika
+
 ## Version
+
+0.2.1
 
 ## Uso de CLI (Lìnea de Comando)
 
