@@ -10,7 +10,7 @@ Esta libreria permite analizar archivos con extensión MD.Analiza el contenido y
 
 ## Uso de CLI (Lìnea de Comando)
 
-md-links <path-to-file> [options]
+`md-links <path-to-file> [options]`
 
 Primera forma: md-links <path-to-file>
 
@@ -18,11 +18,12 @@ Primera forma: md-links <path-to-file>
 
 Por ejemplo:
 
+```sh
 $ md-links ./some/example.md
 ./some/example.md http://algo.com/2/3/ Link a algo
 ./some/example.md https://otra-cosa.net/algun-doc.html algún doc
 ./some/example.md http://google.com/ Google
-Segunda forma: md-links <path-to-file> [options]
+```
 
 [options]
 
@@ -30,10 +31,13 @@ Segunda forma: md-links <path-to-file> [options]
 
 Por ejemplo:
 
+```sh
 $ md-links ./some/example.md --validate
 ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
 ./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
 ./some/example.md http://google.com/ ok 301 Google
+```
+
 --stats : Si pasamos la opción --stats el output (salida) será un texto con estadísticas básicas sobre los links como el total y los links únicos.
 
 Por ejemplo:
@@ -45,7 +49,9 @@ Unique: 3
 
 Por ejemplo:
 
-$ md-links ./some/example.md --stats --validate
+
+```sh
+$ md-links ./some/example.md --stats
 Total: 3
 Unique: 3
-Broken: 1
+```
