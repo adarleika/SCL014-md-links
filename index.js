@@ -20,9 +20,26 @@ let fileName = process.argv[2]
 fileName = path.resolve(fileName)
 console.log(fileName)
 
+let options = process.argv[3]
+
+//console.log(fileName.length)
+
+
 
 const pattern = /\[([^\[]+)\](\(.*\))/gm;
 const singleLine = /\[([^\[]+)\]\((.*)\)/;
+
+const getHttpStatus = (url) => {
+  return new Promise((resolve, reject) => {
+    fetchUrl(url, (error, meta, body) => {
+      if(error) {
+        reject(error)
+      }else {
+        resolve(meta.status)
+      }
+    });
+  })
+};
 
 //Leer archivo con promesa e imprime en un arreglo el href, text y path del archivo
 const readAFile = (fileName, encoding) => {
@@ -42,17 +59,43 @@ const readAFile = (fileName, encoding) => {
 
       });
 
+      let total = infoLinks.length;
+      console.log(total);
+
+      infoLinks.map((line) => {
+        let url = line.href;
+        let text = line.text;
+        let file = line.path;
+
+        if(options === '--validate'){
+          getHttpStatus(url)
+            .then(res => {
+                console.log("EL estado de", url, "es", res)
+            })
+            .catch(err => {
+              console.log(err.path)
+            });
+          } else if (options === '--stats'){
+            
+            console.log("esto es el total",total)
+        } else {
+          console.log((`file: ${file} \n Link: ${url} \n Text: ${text}`));
+        };
+      });
+
+      /*
       if (err) {
         reject(err);
       } else {
         resolve(infoLinks);
 
       }
+      */
     
     });
   });
 
-}
+};
 
 
 readAFile(fileName, 'utf-8')
@@ -62,6 +105,8 @@ readAFile(fileName, 'utf-8')
   .catch(err => {
     console.log(err.path)
   })
+
+
 
 
 /*
@@ -92,5 +137,7 @@ if (extFile === '.md') {
 } else {
   console.log("no es una extension .md");
 }
+
+
 
 
